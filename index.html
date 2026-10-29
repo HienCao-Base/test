@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Giới thiệu n8n</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+  :root{
+    --bg:#F7F7FB; --surface:#FFFFFF; --line:#E4E6EF; --ink:#24283B; --ink-2:#61667E;
+    --accent:#EA4B71; --accent-tint:#FDE9EE; --blue:#6B7AD6; --blue-tint:#ECEEFB; --green:#4FA07C; --green-tint:#E5F3EC;
+  }
+  @media (prefers-color-scheme:dark){:root{
+    --bg:#15172A; --surface:#1D2036; --line:#30344F; --ink:#E8E9F3; --ink-2:#A9ADC6;
+    --accent:#F57D99; --accent-tint:#3A2130; --blue:#9DA8F0; --blue-tint:#262B52; --green:#86C9A8; --green-tint:#1D3530;
+  }}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Be Vietnam Pro",system-ui,sans-serif;line-height:1.65}
+  .wrap{max-width:960px;margin:0 auto;padding:0 20px}
+  h1,h2,h3{line-height:1.2;margin:0}
+  p{margin:0}
+
+  header{padding:64px 0 40px}
+  .tag{display:inline-block;font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);background:var(--accent-tint);padding:5px 12px;border-radius:99px}
+  header h1{font-size:clamp(2.2rem,5vw,3.4rem);font-weight:800;letter-spacing:-.02em;margin-top:16px}
+  header h1 span{color:var(--accent)}
+  header p{margin-top:14px;max-width:60ch;color:var(--ink-2);font-size:1.08rem}
+
+  /* sơ đồ workflow minh hoạ */
+  .flow{margin-top:32px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .node{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 16px;font-weight:600;font-size:.92rem;display:flex;align-items:center;gap:10px}
+  .node i{width:10px;height:10px;border-radius:50%;flex:none}
+  .arrow{color:var(--ink-2);font-weight:700}
+
+  section{padding:44px 0;border-top:1px solid var(--line)}
+  section h2{font-size:1.6rem;font-weight:800}
+  section > .wrap > p{margin-top:10px;color:var(--ink-2);max-width:65ch}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:22px}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px}
+  .card h3{font-size:1.05rem}
+  .card p{margin-top:6px;color:var(--ink-2);font-size:.93rem}
+  .dot{display:inline-grid;place-items:center;width:36px;height:36px;border-radius:10px;font-weight:800;margin-bottom:12px}
+
+  .terms{display:grid;gap:10px;margin-top:22px}
+  .term{display:grid;grid-template-columns:160px 1fr;gap:16px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 18px}
+  .term b{font-family:"JetBrains Mono",monospace;font-size:.9rem;color:var(--blue)}
+  .term span{color:var(--ink-2);font-size:.93rem}
+
+  ol.steps{margin:22px 0 0;padding-left:22px;display:grid;gap:10px}
+  ol.steps li{padding-left:6px}
+  code{font-family:"JetBrains Mono",monospace;font-size:.88em;background:var(--blue-tint);color:var(--ink);padding:2px 7px;border-radius:6px}
+  pre{margin-top:16px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px;overflow-x:auto;font-family:"JetBrains Mono",monospace;font-size:.88rem}
+
+  table{width:100%;border-collapse:collapse;margin-top:22px;background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;font-size:.93rem}
+  th,td{text-align:left;padding:12px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
+  tr:last-child td{border-bottom:0}
+  .tbl{overflow-x:auto}
+
+  footer{padding:32px 0 48px;border-top:1px solid var(--line);color:var(--ink-2);font-size:.88rem}
+  a{color:var(--accent)}
+  @media (max-width:560px){.term{grid-template-columns:1fr;gap:4px}.arrow{display:none}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <span class="tag">Workflow automation</span>
+    <h1>n8n: tự động hoá công việc <span>bằng cách nối các node</span></h1>
+    <p>n8n (đọc là "n-eight-n") là công cụ tự động hoá quy trình. Bạn kéo thả các khối (node) và nối chúng thành một workflow, để các ứng dụng tự trao đổi dữ liệu với nhau mà không cần làm tay.</p>
+    <div class="flow" aria-label="Ví dụ một workflow">
+      <div class="node"><i style="background:var(--accent)"></i>Có form đăng ký mới</div><span class="arrow">→</span>
+      <div class="node"><i style="background:var(--blue)"></i>Lọc &amp; chuẩn hoá dữ liệu</div><span class="arrow">→</span>
+      <div class="node"><i style="background:var(--green)"></i>Thêm vào Google Sheets</div><span class="arrow">→</span>
+      <div class="node"><i style="background:var(--green)"></i>Báo vào Telegram</div>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h2>Vì sao nhiều người chọn n8n</h2>
+    <p>n8n nằm giữa các công cụ no-code dễ dùng và việc tự viết code từ đầu.</p>
+    <div class="grid">
+      <div class="card"><span class="dot" style="background:var(--accent-tint);color:var(--accent)">1</span><h3>Kéo thả trực quan</h3><p>Dựng workflow trên giao diện sơ đồ, nhìn rõ dữ liệu đi qua từng bước.</p></div>
+      <div class="card"><span class="dot" style="background:var(--blue-tint);color:var(--blue)">2</span><h3>Tự host được</h3><p>Cài trên máy chủ của mình để giữ dữ liệu nội bộ, hoặc dùng bản n8n Cloud.</p></div>
+      <div class="card"><span class="dot" style="background:var(--green-tint);color:var(--green)">3</span><h3>Viết code khi cần</h3><p>Node Code cho phép chèn JavaScript hoặc Python để xử lý những chỗ phức tạp.</p></div>
+      <div class="card"><span class="dot" style="background:var(--accent-tint);color:var(--accent)">4</span><h3>Nhiều tích hợp sẵn</h3><p>Có sẵn node cho hàng trăm dịch vụ phổ biến; dịch vụ nào chưa có thì gọi qua HTTP Request.</p></div>
+      <div class="card"><span class="dot" style="background:var(--blue-tint);color:var(--blue)">5</span><h3>Làm AI agent</h3><p>Có các node AI để nối mô hình ngôn ngữ, bộ nhớ và công cụ thành một agent.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Các khái niệm cơ bản</h2>
+    <div class="terms">
+      <div class="term"><b>Workflow</b><span>Một chuỗi các bước tự động, chạy từ trái sang phải.</span></div>
+      <div class="term"><b>Node</b><span>Một bước trong workflow: đọc dữ liệu, xử lý, hoặc gửi đi đâu đó.</span></div>
+      <div class="term"><b>Trigger</b><span>Node khởi động workflow: theo lịch, khi có webhook gọi tới, khi có email hay form mới…</span></div>
+      <div class="term"><b>Credentials</b><span>Thông tin đăng nhập vào các dịch vụ (API key, OAuth), lưu riêng và dùng lại được.</span></div>
+      <div class="term"><b>Execution</b><span>Một lần workflow chạy. Xem lại được để biết node nào lỗi và dữ liệu ra sao.</span></div>
+      <div class="term"><b>Expression</b><span>Cú pháp <code>{{ $json.ten_truong }}</code> để lấy dữ liệu từ node trước.</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Ví dụ ứng dụng</h2>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Bài toán</th><th>Workflow gợi ý</th></tr></thead>
+        <tbody>
+          <tr><td>Thu lead từ website</td><td>Webhook nhận form → lưu vào CRM → gửi email chào mừng</td></tr>
+          <tr><td>Báo cáo định kỳ</td><td>Schedule mỗi sáng → lấy số liệu từ database → gửi tóm tắt vào Slack</td></tr>
+          <tr><td>Chăm sóc khách hàng</td><td>Email mới → AI phân loại nội dung → tạo ticket đúng bộ phận</td></tr>
+          <tr><td>Đồng bộ dữ liệu</td><td>Đơn hàng mới trên shop → cập nhật Google Sheets và phần mềm kế toán</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Bắt đầu nhanh</h2>
+    <p>Cách đơn giản nhất để thử trên máy cá nhân là chạy bằng Docker:</p>
+    <pre>docker run -it --rm --name n8n -p 5678:5678 \
+  -v n8n_data:/home/node/.n8n \
+  docker.n8n.io/n8nio/n8n</pre>
+    <ol class="steps">
+      <li>Mở trình duyệt tại <code>http://localhost:5678</code> và tạo tài khoản chủ sở hữu.</li>
+      <li>Bấm tạo workflow mới, thêm một node Trigger (ví dụ <b>Schedule</b> hoặc <b>Manual</b>).</li>
+      <li>Thêm các node tiếp theo, kết nối credentials của dịch vụ cần dùng.</li>
+      <li>Bấm chạy thử, xem dữ liệu ở từng node, rồi bật <b>Active</b> để workflow tự chạy.</li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Lưu ý</h2>
+    <div class="grid">
+      <div class="card"><h3>Giấy phép</h3><p>n8n dùng mô hình "fair-code": xem được mã nguồn và tự host miễn phí cho nhu cầu nội bộ, nhưng có giới hạn khi dùng để kinh doanh lại.</p></div>
+      <div class="card"><h3>Bảo mật</h3><p>Khi tự host, hãy đặt sau HTTPS, bảo vệ webhook và sao lưu thư mục dữ liệu định kỳ.</p></div>
+      <div class="card"><h3>Theo dõi lỗi</h3><p>Dùng Error Workflow để nhận thông báo khi một workflow chạy thất bại.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">Tìm hiểu thêm tại <a href="https://n8n.io" target="_blank" rel="noopener">n8n.io</a> và <a href="https://docs.n8n.io" target="_blank" rel="noopener">docs.n8n.io</a>.</div>
+</footer>
+
+</body>
+</html>
